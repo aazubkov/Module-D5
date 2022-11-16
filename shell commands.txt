@@ -1,9 +1,5 @@
 from newsapp.models import *
 
-#auth1 = Author.objects.all()[0]
-#Author.update_rating(auth1)
-
-
 #1. Создаю юзеров
 u1 = User.objects.create(username='Vasya')
 u2 = User.objects.create(username='Petya')
@@ -93,7 +89,7 @@ tp.rating
 tp.title
 tp.preview()
 
-#11.
+#11. Вывожу комментарии (дата, пользователь, рейтинг, текст) к этой статье
 exec("for c in Comment.objects.filter(post=tp) : print('Date:', c.posted.date().strftime('%d.%m.%Y'), 'User:', c.user.username, 'Rating:', c.rating, 'Comment:', c.text)")    
 
    
