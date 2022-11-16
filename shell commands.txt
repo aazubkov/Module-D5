@@ -1,0 +1,101 @@
+from newsapp.models import *
+
+#auth1 = Author.objects.all()[0]
+#Author.update_rating(auth1)
+
+
+#1. Создаю юзеров
+u1 = User.objects.create(username='Vasya')
+u2 = User.objects.create(username='Petya')
+
+u3 = User.objects.create(username='Sea Wolf') 
+u4 = User.objects.create(username='Рабинер')  
+
+#2. Назначаю юзеров авторами
+auth1 = Author.objects.create(user=u3)
+auth2 = Author.objects.create(user=u4)
+
+#3. Создаю категории постов
+cat1 = Category.objects.create(name='Спорт')
+cat2 = Category.objects.create(name='Политика')
+cat3 = Category.objects.create(name='Технологии')    
+cat4 = Category.objects.create(name='Экономика') 
+
+#4. Немного креатива со статьями и новостями
+title1 = 'Нападение инопланетян на Землю не за горами'
+text1 = 'В 2024 ожидается тотальное нашествие инопланетян на нашу родную планету. Под прикрытием астероидной атаки пришельцы предположительно из Туманности Андромеды нанесут сокрушительный удар по остаткам цивилизации, которая трудом пережила пандемию 2020-21 годов, военные конфликты 2022 и метиоритные дожди в 2023.'
+title2 = 'Пятерочка? Нет - семерочка! Как убивали Спартак'
+text2 = '7:1 — что это было?! Матч «Зенит» – «Спартак» должен был стать главным событием осени в российском футболе. Но «дерби двух столиц» не получилось. Красно-белые как будто забыли выйти на игру в Санкт-Петербурге и потерпели самое крупное поражение в своей почти 100-летней истории в национальных турнирах. Статистика к перерыву: удары в створ – 6:2, голы – 4:0. «Зенит» безжалостно наказывал «Спартак» за ошибки, хотя реализовал далеко не все созданные моменты. Начало разгрому положил гол Азмуна на 20-й минуте. Штаб Семака здорово подготовил этот угловой. Но перестроения спартаковцев в защите были очень странными, а Айртон проиграл единоборство с иранцем.'
+title3 = 'Напечатанный 3D-велиосипед поставил мировой рекорд'
+text3 = 'Велосипедист Филиппо Ганна установил новый мировой рекорд скорости, проехав 56,79 км трассы за 60 минут на велодроме Гренхен. Да, они соревнуются по километражу. Кто дальше уедет за час. Не спрашивайте нас почему.  Как бы то ни было, рекорд установлен на напечатанном велике! Правда, выращены только рама и руль. Рама - из аэрокосмического сплава Scalmalloy на 3D-принтере EOS M400, руль - из титанового Ti6Al4V на Arcam EBM. Английская компаний Metron специализируется на подобных задачках. Посчитали аэродинамику, смоделировали процесс, подобрали материалы, загрузили 3D-модельки в принтаки. Вжж, вжж, вжж - и готово. Доставай детали, удаляй порошок. Чтобы удостовериться, что выросло то, что хотели (а не то, что выросло) - использовали метрологический контроль щупами на КИМах и 3D-сканеры. Далее - сборка самой рамы из выращенных элементов, монтаж руля, колес, велосепедиста - и на трек! Что тут можно сказать? Очередной кейс повышения технических показателей продукта за счет применения аддитивных технологий. Вданном случае - снижение веса и улучшение аэродинамики.'
+post1 = Post.objects.create(title=title1, text=text1, type='N',author=auth1)
+post2=Post.objects.create(title=title2, text=text2, type='A',author=auth2)                
+post3=Post.objects.create(title=title3, text=text3, type='A',author=auth1) 
+
+#5. Назначаю постам категории
+post1.category.add(cat2)
+post1.category.add(cat4)
+post2.category.add(cat1)
+post3.category.add(cat1)
+post3.category.add(cat3)
+
+#6. Создаю комменты
+comment1 = 'Хмм что же нас ждет в 2025? Квантовая сингулярность? Пойду поем.'
+comment2 = 'Да, такое позорное поражение нам не смыть все следующие 100 лет. Спасибо за подарок на юбилей!'
+comment3 = 'Приезжайте еще!'
+comment4 = 'Вот видно делать людям ну совсем нечего.. На Землю инопланетяне нападают, Спартак в очередной раз опустили в Питере - а этим тока бы на своих напечатанных великах гонять по кругу!!'
+c1 = Comment.objects.create(text=comment1, post=post1, user=u1)   
+c2 = Comment.objects.create(text=comment2, post=post2, user=u2)  
+c3 = Comment.objects.create(text=comment3, post=post2, user=u3) 
+c4 = Comment.objects.create(text=comment4, post=post3, user=u4)   
+
+#7. Генерирую лайки и дисклайки к постам и комментам, рейтинги обновляются
+c1.like()
+c1.like()
+c1.like()
+c2.like() 
+c2.like()
+c2.like()
+c2.like()
+c2.like()
+c2.like()
+post1.like()                       
+post1.dislike() 
+post1.dislike()
+post1.dislike()
+post1.dislike()
+post2.like()
+post2.like()
+post2.like()
+post2.like()
+post2.like()
+post2.like()
+post2.like()
+post2.like()
+post3.like() 
+post3.like()
+post3.like()
+
+#8. Обновляю рейтинг авторов
+Author.update_rating(auth1)
+Author.update_rating(auth2)
+
+#9. Вывожу юзернейм и рейтинг самого рейтингового автора
+ta = Author.objects.all().order_by('-rating')[0]
+ta.user.username
+ta.rating        
+
+#10. Вывожу инфу по самой рейтиновой статье top_post
+tp = Post.objects.filter(type='A').order_by('-rating')[0]
+tp.posted.date().strftime('%d.%m.%Y')
+tp.author.user.username
+tp.rating
+tp.title
+tp.preview()
+
+#11.
+exec("for c in Comment.objects.filter(post=tp) : print('Date:', c.posted.date().strftime('%d.%m.%Y'), 'User:', c.user.username, 'Rating:', c.rating, 'Comment:', c.text)")    
+
+   
+
+
